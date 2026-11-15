@@ -1,0 +1,18 @@
+{
+  "staged_files": 52,
+  "private_values_found": false,
+  "foreign_brand_found": false,
+  "own_markdown_articles": 12,
+  "source_project_unchanged": true,
+  "source_services": [
+    "active",
+    "active"
+  ],
+  "source_demo_deadline_unchanged": true,
+  "media_files": [
+    "answer-desktop.png",
+    "demo.webm",
+    "start-desktop.png",
+    "start-mobile.png"
+  ]
+}
