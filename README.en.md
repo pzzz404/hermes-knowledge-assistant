@@ -1,12 +1,23 @@
-# Knowledge Support Assistant
+# AI Knowledge Base & Support Chatbot
 
-A browser chat that searches a fictional product knowledge base, answers with source links, and prepares an editable support request draft.
+**Turn documentation into a support chat with source-cited answers.** Users ask in their own words,
+get a link to the relevant article, and can prepare an editable support request when the docs fall short.
+Use it as a foundation for customer self-service, internal knowledge search, and onboarding.
 
 ![Chat with source](artifacts/answer-desktop.png)
 
 [Demo video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
 
-The real generation path is FastAPI → SQLite FTS5 → isolated Hermes → answer and evidence-ID validation. There are no embeddings or vector database. The 12 Markdown articles describe the fictional Example Workspace product and are served as read-only `/kb/<slug>` pages.
+## Where to use it
+
+- **Customer support and help centers:** answer recurring questions from product documentation and show the supporting article.
+- **Internal help desks:** find procedures, access rules, and settings without manual document search.
+- **Employee and customer onboarding:** explain steps and clarify which interface version applies.
+- **Support agent assistance:** locate the original instruction and prepare an editable request draft when the docs are insufficient.
+
+The application searches local Markdown articles. The repository includes 12 original articles for the fictional Example Workspace product; replace the corpus and product-specific rules for your own use case.
+
+The generation path is FastAPI → SQLite FTS5 → isolated Hermes → answer and evidence-ID validation. There are no embeddings or vector database. Articles are served as read-only `/kb/<slug>` pages.
 
 Run `uv sync --frozen --extra dev`, `uv run python scripts/import_corpus.py`, and `uv run pytest -q`. For a clearly marked technical preview use `ADAPTER=mock uv run uvicorn app.main:app --host 127.0.0.1 --port 8087`. Live answers require a server-side OpenRouter key and a separate Hermes profile; see the [Russian README](README.md) for setup.
 
