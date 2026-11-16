@@ -5,7 +5,7 @@
 
 ![Чат с ответом и источником](artifacts/answer-desktop.png)
 
-[Видео демонстрации](artifacts/demo.webm) · [Страница кейса](docs/PORTFOLIO_RU.md) · [English README](README.en.md)
+[Видео демонстрации](artifacts/demo.webm) · [Страница кейса](docs/PORTFOLIO_RU.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant) · [English README](README.en.md)
 
 Проект показывает RAG без векторной базы: FastAPI → SQLite FTS5 → отдельный Hermes →
 проверка структуры ответа и ID найденных фрагментов → собственные страницы `/kb/<slug>`.

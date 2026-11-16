@@ -4,7 +4,7 @@
 
 ![Ответ с раскрытым источником](../artifacts/answer-desktop.png)
 
-[Посмотреть видео](../artifacts/demo.webm) · [Как запустить локально](../README.md)
+[Посмотреть видео](../artifacts/demo.webm) · [Как запустить локально](../README.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant)
 
 ## Задача
 

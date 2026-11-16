@@ -4,7 +4,7 @@ A browser chat that searches a fictional product knowledge base, answers with so
 
 ![Chat with source](artifacts/answer-desktop.png)
 
-[Demo video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md)
+[Demo video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
 
 The real generation path is FastAPI → SQLite FTS5 → isolated Hermes → answer and evidence-ID validation. There are no embeddings or vector database. The 12 Markdown articles describe the fictional Example Workspace product and are served as read-only `/kb/<slug>` pages.
 
