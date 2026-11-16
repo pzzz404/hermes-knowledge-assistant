@@ -1,12 +1,4 @@
 {
-  "questions_sha256": "d870220f1bcee55609b634944234e172fdf9ff5b5b172c1ae72bcebc28a157e6",
-  "cases": 24,
-  "language": "ru",
-  "kind_counts": {
-    "answer": 14,
-    "outside": 4,
-    "clarify": 2,
-    "followup": 1,
-    "injection": 3
-  }
+  "questions_sha256": "3a0db4a1f61e9d255f1c55b64466bb23a8b265e01bf8d455cb8a9779aa8a57f8",
+  "cases": 24
 }

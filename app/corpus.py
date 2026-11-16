@@ -1,6 +1,6 @@
 import hashlib,json,re,sqlite3
 from pathlib import Path
-from .profile import EXAMPLES,TOPIC_TERMS
+from .profile import EXAMPLES,TOPIC_TERMS,TOPIC_SLUG_HINTS
 
 class Corpus:
     def __init__(self,directory:Path):self.path=directory/'corpus.sqlite3'
@@ -20,7 +20,7 @@ class Corpus:
         if history and re.search(r'\b(это|этот|эти|там|туда|его|её|также|вместо|that|there|also)\b',question,re.I):question=history[-1]['question']+' '+question
         words=re.findall(r'[a-zа-яё0-9]+',question.lower())
         words += [w for word in words for w in TOPIC_TERMS.get(word,'').split()]
-        stop={'как','где','когда','какие','какой','можно','может','ли','мне','нам','это','этот','эти','там','для','при','что','если','или','они','его','её','она','все','про','могу','нужно','надо','v1','v2',
+        stop={'как','где','когда','какие','какой','можно','может','ли','мне','нам','это','этот','эти','там','для','при','что','если','или','они','его','её','она','все','про','могу','нужно','надо','v1','v2','сотрудник','сотрудника','сотрудников','делать','происходит','есть','уже',
               'how','can','could','what','where','when','does','do','the','and','this','that','workspace','example'}
         words=list(dict.fromkeys(w for w in words if len(w)>2 and w not in stop))[:20]
         if not words:return []
@@ -29,6 +29,10 @@ class Corpus:
         query=' OR '.join(w[:5]+'*' if len(w)>5 else '"'+w+'"' for w in words)
         with self.connect() as db:
             rows=db.execute('SELECT *, bm25(chunks) rank FROM chunks WHERE chunks MATCH ? ORDER BY rank LIMIT 18',(query,)).fetchall()
+        hinted={slug for term,slug in TOPIC_SLUG_HINTS.items() if term in question.lower()}
+        if 'перв' in question.lower() and 'день' in question.lower():hinted.add('first-day')
+        if 'рабочий день' in question.lower() and 'first-day' not in hinted:hinted.add('workday')
+        rows=sorted(rows,key=lambda row:(row['slug'] not in hinted,row['rank']))
         if version:
             rows=sorted(rows,key=lambda row: (row['version']!=version,row['rank']))
         chosen=[];seen=set()
@@ -45,6 +49,9 @@ class Corpus:
         for eid in ids:
             e=by_id[eid];d=e['article']
             if any(s['url']==d['url'] for s in sources):continue
+            excerpt_text=re.sub(r'^#\s+[^\n]+\n*','',e['text']).strip()
+            excerpt=' '.join(re.split(r'(?<=[.!?])\s+',excerpt_text)[:2])
             sources.append({'title':d['title'],'url':d['url'],'section':e['heading'],'version':d['version'],
-                            'excerpt':' '.join(e['text'].split()[:25]),'evidence_ids':[eid],'content_hash':d['content_hash']})
+                            'excerpt':excerpt[:350].rsplit(' ',1)[0]+'…' if len(excerpt)>350 else excerpt,
+                            'evidence_ids':[eid],'content_hash':d['content_hash']})
         return sources

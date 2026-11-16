@@ -2,7 +2,7 @@
 const $ = (s) => document.querySelector(s);
 let history = [], busy = false, pending = null, coverage = null;
 const text = (tag, value, className) => { const e=document.createElement(tag); e.textContent=value; if(className)e.className=className; return e; };
-const versionLabel = value => value==='common'?'общая':value==='unknown'?'':value;
+const versionLabel = value => value==='common'?'':value==='unknown'?'':value;
 async function api(path, data) {
   const res=await fetch(path,{method:data===undefined?'GET':'POST',headers:data===undefined?{}:{'Content-Type':'application/json'},body:data===undefined?undefined:JSON.stringify(data),credentials:'same-origin'});
   const body=await res.json();
@@ -42,7 +42,7 @@ function render(item) {
   item.response.sources.forEach((source,index)=>{
     const details=document.createElement('details');
     const summary=text('summary',`${index+1}. ${source.title}`);
-    summary.append(text('small',versionLabel(source.version)));
+    if(versionLabel(source.version))summary.append(text('small',versionLabel(source.version)));
     details.append(summary,text('p',source.section),text('blockquote',source.excerpt));
     const link=text('a','Открыть статью ↗','source-link');
     try { const url=new URL(source.url,location.origin); if(url.origin!==location.origin || !/^\/kb\/[a-z0-9-]+$/.test(url.pathname))return; link.href=url.pathname; } catch { return; }
@@ -74,7 +74,7 @@ $('#new-conversation').addEventListener('click',async()=>{
 });
 $('#prepare').addEventListener('click',()=>{
   const last=history.at(-1), question=$('#question').value.trim() || last?.question || '[Опишите ваш вопрос]';
-  $('#support-text').value=`Здравствуйте!\n\nНужна помощь по рабочему пространству «Пример».\n\nВопрос: ${question}\nВерсия интерфейса: [V1 / V2 / не знаю]\nКонтекст и мои действия: [Добавьте детали без персональных данных]\n\nЧто найдено в документации:\n${last?answerText(last):'Ответ по документации пока не получен.'}\n\nЧто осталось неясным:\n${last?.response.answer.clarifying_question || '[Укажите, что нужно уточнить]'}\n\nЭто черновик. Обращение не отправлено.`;
+  $('#support-text').value=`Здравствуйте!\n\nНужна помощь по внутренней базе знаний.\n\nВопрос: ${question}\nКонтекст: [Добавьте детали без персональных данных]\n\nЧто найдено в документации:\n${last?answerText(last):'Ответ по документации пока не получен.'}\n\nЧто осталось неясным:\n${last?.response.answer.clarifying_question || '[Укажите, что нужно уточнить]'}\n\nЭто черновик. Обращение не отправлено.`;
   $('#support-dialog').showModal();
 });
 $('#copy-support').addEventListener('click',event=>copy($('#support-text').value,event.currentTarget,'Скопировать черновик'));
@@ -92,22 +92,22 @@ async function init() {
     coverage=await api('/api/coverage');
     $('#access').hidden=true;$('#question-form').hidden=false;
     $('#examples').replaceChildren();$('#topics').replaceChildren();
-    $('#coverage-summary').textContent=coverage.mode==='mock'?'MOCK · ответы модели отключены':`${coverage.article_count} статей · рабочее пространство «Пример»`;
+    $('#coverage-summary').textContent=coverage.mode==='mock'?'MOCK · ответы модели отключены':`${coverage.article_count} статей · вопросы сотрудников`;
     $('#coverage-detail').textContent=`Статей: ${coverage.article_count}. ${coverage.fetched_at?'Обновлено '+new Date(coverage.fetched_at).toLocaleDateString('ru-RU')+'.':'Используется локальный корпус.'}`;
     coverage.topics.forEach(topic=>{
       const item=text('li','');const link=text('a',topic.title);
       const url=new URL(topic.url,location.origin);
       if(url.origin===location.origin && /^\/kb\/[a-z0-9-]+$/.test(url.pathname)){
         link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';item.append(link);
-        if(topic.version!=='unknown')item.append(text('span',` · ${versionLabel(topic.version)}`));
+        if(versionLabel(topic.version))item.append(text('span',` · ${versionLabel(topic.version)}`));
         $('#topics').append(item);
       }
     });
-    const icons=['▤','＋','◷','⇄'];
-    const labels=['Пригласить участника','Права на экспорт','Архивировать проект','Настройки интерфейса V2'];
+    const icons=['▤','◷','✦','⌘'];
+    const labels=['Оформить отпуск','Рабочий день','Премии и штрафы','Сломался ноутбук'];
     (coverage.examples || []).forEach((question,i)=>{
       const button=text('button','','example');button.type='button';button.append(text('span',icons[i],'example-icon'));
-      const label=text('span',labels[i]);label.append(text('small','РАБОЧЕЕ ПРОСТРАНСТВО «ПРИМЕР»'));button.append(label);
+      const label=text('span',labels[i]);label.append(text('small','ВОПРОС СОТРУДНИКА'));button.append(label);
       button.addEventListener('click',()=>{$('#question').value=question;$('#counter').textContent=`${question.length} / 2 000`;$('#question').focus();});
       $('#examples').append(button);
     });

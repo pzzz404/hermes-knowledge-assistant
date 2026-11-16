@@ -12,35 +12,25 @@ from .corpus import Corpus
 from .hermes import Hermes,MockHermes
 from .models import ChatInput,GeneratedAnswer
 from .prompt import SYSTEM
+from .profile import TOPIC_SLUG_HINTS
 from .store import Store,AppError
 STATIC=Path(__file__).parent/'static'
 
-def version_of(question,history):
-    found=re.findall(r'\bV[12]\b',question,re.I)
-    if found:return found[-1].upper()
-    if history:
-        old=re.findall(r'\bV[12]\b',history[-1]['question'],re.I)
-        if old and re.search(r'\b(это|этот|там|также|вместо|it|that|there|also|instead)\b',question,re.I):return old[-1].upper()
-    return None
-
 def scope_of(question):return 'procedure' if re.search(r'\b(как|где|порядок|шаги|how|steps|procedure)\b',question,re.I) else 'overview'
 
-def boundary(question,history,version,evidence):
+def boundary(question,history,evidence):
     if re.search(r'(системн|скрыт).{0,25}(промпт|инструкц)|(?:api.?ключ|ключ.?api|секрет|чуж.{0,20}(диалог|переписк)|(?:диалог|переписк).{0,25}(других|чужих)\s+пользоват)|\b(system|developer|hidden)\s+(prompt|instructions)\b',question,re.I):
         return GeneratedAnswer(status='not_found',summary='Я не раскрываю скрытые инструкции, ключи и чужие диалоги.')
-    if re.search(r'(можешь|можете|сможешь|сможете).{0,30}(приглас|экспортир|архивир|восстанов|удал|измени|отправ|откр|сброс)|\b(can|could|will|would) you\s+(?:please\s+)?(invite|export|archive|restore|delete|change|send|open|access|reset)\b',question,re.I) and not re.search(r'\b(как|объясни|порядок|шаги|how|explain|steps)\b',question,re.I):
-        return GeneratedAnswer(status='not_found',summary='Я могу объяснить инструкцию, но не выполняю действия в рабочем пространстве.')
-    if re.search(r'безвозвратн.{0,20}удал|удал.{0,20}(навсегда|безвозвратн)|permanent(?:ly)?\s+delet',question,re.I):
-        if any('Безвозвратное удаление — отдельная операция' in e['text'] for e in evidence):
-            return GeneratedAnswer(status='not_found',summary='Документация не описывает безвозвратное удаление архивного проекта или правило удаления через 30 дней.')
-    if re.search(r'администратор.{0,45}переда\w*.{0,45}(оплат|биллинг)',question,re.I):
-        source=next((e for e in evidence if e['article_id']=='billing' and 'не может передавать право управления оплатой' in e['text']),None)
-        if source:
-            return GeneratedAnswer(status='answered',summary='Администратор не может передавать право управления оплатой. Кто может выполнить такую передачу, статья не устанавливает.',evidence_ids=[source['evidence_id']])
-    if re.search(r'\b(это|этот|эти|эту|ту|тот|там|туда|его|её|it|that|this|those)\b',question,re.I) and not history and len(question.split())<8:
-        return GeneratedAnswer(status='needs_clarification',summary='Уточните, о какой настройке идёт речь.',clarifying_question='Какую функцию или настройку вы имеете в виду?')
-    if re.search(r'(где|как открыть|как найти).{0,35}(настройки проекта|палитр.{0,10}команд)|\b(project settings|project navigation|command palette)\b',question,re.I) and not version:
-        return GeneratedAnswer(status='needs_clarification',summary='Расположение зависит от версии интерфейса.',clarifying_question='Вы используете интерфейс V1 или V2?')
+    personal=re.search(r'\b(мой|моя|мою|моего|мне|у меня|я)\b',question,re.I)
+    individual=re.search(r'сколько|какая|какой|какую|размер|остат|остал|статус|одобр|начисл|выплатили|получил',question,re.I)
+    if personal and individual and re.search(r'отпуск|зарплат|преми|заявк|выплат',question,re.I):
+        return GeneratedAnswer(status='not_found',summary='У меня нет доступа к вашим личным данным и заявкам. Проверьте их в кадровом портале или обратитесь к ответственному специалисту.')
+    if re.search(r'\b(оформи|отправь|согласуй|одобри|создай|измени|проверь в системе|посмотри в кабинете)\b|(?:можешь|можете|сможешь|сможете).{0,35}(оформить|отправить|согласовать|одобрить|создать|изменить)',question,re.I) and not re.search(r'\b(как|объясни|порядок|шаги|how|explain|steps)\b',question,re.I):
+        return GeneratedAnswer(status='not_found',summary='Я могу объяснить порядок действий по статье, но не оформляю заявки и не выполняю действия за сотрудника.')
+    if (re.search(r'\b(это|этот|эти|эту|ту|тот|там|туда|его|её|it|that|this|those)\b',question,re.I)
+            and not history and len(question.split())<8
+            and not any(term in question.lower() for term in TOPIC_SLUG_HINTS)):
+        return GeneratedAnswer(status='needs_clarification',summary='Уточните, о чём идёт речь.',clarifying_question='Какой порядок или правило вас интересует?')
     if not evidence:return GeneratedAnswer(status='not_found',summary='В выбранных статьях нет подтверждённого ответа на этот вопрос.')
     return None
 
@@ -50,11 +40,15 @@ def validate(raw,evidence,scope):
     if not set(a.evidence_ids).issubset(ids):raise ValueError('Unknown evidence ID')
     if any(not set(s.evidence_ids).issubset(set(a.evidence_ids)) for s in a.steps):raise ValueError('Step evidence mismatch')
     prose=' '.join([a.summary,a.clarifying_question or '',*[s.text for s in ([] if scope=='overview' else a.steps)]])
-    cited=' '.join(e['text'] for e in evidence if e['evidence_id'] in a.evidence_ids)
-    if (re.search(r'(владел\w*.{0,45}(переда\w*|смен\w*).{0,45}(оплат|биллинг)|переда\w*.{0,65}только.{0,10}владел\w*|\bowner\s+can\s+transfer\s+billing\s+ownership\b)',prose,re.I)
-            and not re.search(r'владелец.{0,45}(может\s+переда\w*|переда\w*).{0,45}(оплат|биллинг)|\bowner\s+can\s+transfer\s+billing\s+ownership\b',cited,re.I)):
-        raise ValueError('Источник запрещает передачу Администратору, но не устанавливает право Владельца передавать управление оплатой.')
+    if any(e['article_id']=='first-day' for e in evidence) and re.search(r'в первый (?:рабочий )?день.{0,70}присыла\w*.{0,30}письм',prose,re.I):
+        raise ValueError('Article says HR sends the email before the first day, not during it')
+    if any(e['article_id']=='bonuses' for e in evidence) and re.search(r'преми\w*.{0,45}да(ют|ётся|ется)',prose,re.I) and not re.search(r'возможн|не гарант|рассматрива',prose,re.I):
+        raise ValueError('Article says a bonus is possible, not guaranteed')
     if re.search(r'https?://|javascript:|<\s*/?\w+[^>]*>',prose,re.I):raise ValueError('Generated URL or HTML')
+    if scope=='procedure' and any(e['article_id']=='vacation' for e in evidence) and len(a.steps)>3:
+        if len(a.steps)==4 and re.search(r'подтвержд|дожд',a.steps[-1].text,re.I):
+            a=a.model_copy(update={'steps':a.steps[:3]})
+        else:raise ValueError('Vacation procedure has exactly three steps')
     if scope=='overview':a=a.model_copy(update={'steps':[]})
     if a.status!='answered':a=a.model_copy(update={'evidence_ids':[]})
     Corpus.sources(evidence,a.evidence_ids)
@@ -97,7 +91,7 @@ def create_app(settings=None,adapter=None):
         if not re.fullmatch(r'[a-z0-9-]+',slug):raise AppError('not_found','Статья не найдена.',404)
         doc=corpus.article(slug)
         if not doc:raise AppError('not_found','Статья не найдена.',404)
-        body='<main><a href="/">← Чат</a><p>Рабочее пространство «Пример» · образцовая документация · '+html.escape(doc['version'])+'</p><article><pre style="white-space:pre-wrap;font:inherit">'+html.escape(doc['body'])+'</pre></article></main>'
+        body='<main><a href="/">← Чат</a><p>Внутренняя база знаний вымышленной компании</p><article><pre style="white-space:pre-wrap;font:inherit">'+html.escape(doc['body'])+'</pre></article></main>'
         return HTMLResponse('<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(doc['title'])+'</title><link rel="stylesheet" href="/static/style.css">'+body+'</html>')
     @app.get('/health')
     async def health():return {'status':'ok'}
@@ -125,12 +119,12 @@ def create_app(settings=None,adapter=None):
         if replay:return with_cookie(replay[1],row,replay[0])
         start=time.monotonic();meta={'model':cfg.hermes_model};code=200
         try:
-            history=json.loads(row['history']);version=version_of(data.question,history);scope=scope_of(data.question)
-            evidence=corpus.search(data.question,history,version)
-            payload={'question':data.question,'version':version or 'unspecified','scope':scope,
+            history=json.loads(row['history']);scope=scope_of(data.question)
+            evidence=corpus.search(data.question,history)
+            payload={'question':data.question,'scope':scope,
                      'prior_questions_not_evidence':[h['question'] for h in history],
                      'EVIDENCE':[{k:e[k] for k in ('evidence_id','title','heading','version','text')} for e in evidence]}
-            answer=boundary(data.question,history,version,evidence)
+            answer=boundary(data.question,history,evidence)
             async with asyncio.timeout(cfg.timeout_seconds):
                 for attempt in range(0 if answer else 2):
                     store.reserve_generation();raw,usage=await llm.complete(SYSTEM,payload,row['hermes_id']);meta['usage']=usage
