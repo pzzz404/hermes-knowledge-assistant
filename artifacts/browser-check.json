@@ -1,5 +1,5 @@
 {
-  "desktop_title": "\u0418\u0418-\u043f\u043e\u043c\u043e\u0449\u043d\u0438\u043a \u043f\u043e \u0431\u0430\u0437\u0435 \u0437\u043d\u0430\u043d\u0438\u0439",
+  "desktop_title": "ИИ-помощник по базе знаний",
   "answer_language": "ru",
   "reload_preserved_two_exchanges": true,
   "new_conversation_cleared_history": true,
@@ -7,5 +7,6 @@
   "mobile_inner_width": 390,
   "source_url": "http://127.0.0.1:8087/kb/invitations",
   "about_url": "http://127.0.0.1:8087/about",
-  "video_bytes": 5008751
+  "video_bytes": 5008751,
+  "mp4_bytes": 940068
 }

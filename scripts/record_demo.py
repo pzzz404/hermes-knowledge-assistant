@@ -1,5 +1,5 @@
 """Record the newly built local product, not a transferred video."""
-import asyncio,json,shutil,os
+import asyncio,json,shutil,os,subprocess
 from pathlib import Path
 from playwright.async_api import async_playwright
 
@@ -26,11 +26,14 @@ async def main():
         await page.locator('#coverage-dialog [data-close]').click();await page.locator('#new-conversation').click();await page.locator('.exchange').first.wait_for(state='detached');await page.goto(URL+'/about');await page.wait_for_timeout(13000)
         await page.goto(URL+'/kb/invitations');await page.wait_for_timeout(6000)
         video=page.video;await context.close();path=Path(await video.path());shutil.copyfile(path,OUT/'demo.webm')
+        subprocess.run(['ffmpeg','-y','-hide_banner','-loglevel','error','-i',str(OUT/'demo.webm'),
+                        '-c:v','libx264','-preset','veryfast','-crf','28','-pix_fmt','yuv420p',
+                        '-movflags','+faststart','-an',str(OUT/'demo.mp4')],check=True)
         mobile=await browser.new_context(viewport={'width':390,'height':844},device_scale_factor=1)
         mp=await mobile.new_page();await mp.goto(URL);await mp.wait_for_selector('#examples button');await mp.screenshot(path=str(OUT/'start-mobile.png'),full_page=True)
         report={'desktop_title':await mp.title(),'answer_language':'ru','reload_preserved_two_exchanges':True,'new_conversation_cleared_history':True,'mobile_scroll_width':await mp.evaluate('document.documentElement.scrollWidth'),
                 'mobile_inner_width':390,'source_url':URL+'/kb/invitations','about_url':URL+'/about',
-                'video_bytes':(OUT/'demo.webm').stat().st_size}
+                'video_bytes':(OUT/'demo.webm').stat().st_size,'mp4_bytes':(OUT/'demo.mp4').stat().st_size}
         (OUT/'browser-check.json').write_text(json.dumps(report,indent=2)+'\n')
         await mobile.close();await browser.close()
 asyncio.run(main())

@@ -1,5 +1,5 @@
 {
-  "staged_files": 52,
+  "staged_files": 53,
   "private_values_found": false,
   "foreign_brand_found": false,
   "own_markdown_articles": 12,
@@ -11,6 +11,7 @@
   "source_demo_deadline_unchanged": true,
   "media_files": [
     "answer-desktop.png",
+    "demo.mp4",
     "demo.webm",
     "start-desktop.png",
     "start-mobile.png"
