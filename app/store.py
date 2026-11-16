@@ -55,7 +55,7 @@ class Store:
         # A restart must not replay work whose upstream outcome is unknown.
         db.execute('''UPDATE requests SET code=503,result=? WHERE code=0
             AND NOT EXISTS (SELECT 1 FROM leases WHERE leases.id=requests.sid || ':' || requests.rid)''',
-            (json.dumps({'error':{'code':'outcome_unknown','message':'The previous request did not finish. It will not be repeated automatically.'}}),))
+            (json.dumps({'error':{'code':'outcome_unknown','message':'Предыдущий запрос не завершился и не будет автоматически повторён.'}}),))
 
     def session(self, sid=None, fresh=False):
         now=time.time()
@@ -81,18 +81,18 @@ class Store:
             old=db.execute('SELECT * FROM requests WHERE sid=? AND rid=?',(sid,rid)).fetchone()
             if old:
                 if old['digest'] != digest:
-                    raise AppError('request_conflict','This request ID was already used for another question.',409)
+                    raise AppError('request_conflict','Этот идентификатор уже использован для другого вопроса.',409)
                 if old['code']==0:
-                    raise AppError('request_in_progress','This question is still being processed.',409)
+                    raise AppError('request_in_progress','Ответ на этот вопрос ещё готовится.',409)
                 return old['code'],json.loads(old['result'])
             for column,value,limit in [('sid',sid,self.settings.session_per_minute),('ip',ip,self.settings.ip_per_minute)]:
                 count=db.execute(f'SELECT count(*) FROM rate_events WHERE {column}=? AND created>?',(value,now-60)).fetchone()[0]
                 if count>=limit:
-                    raise AppError('rate_limit','Too many questions. Please wait a minute.',429)
+                    raise AppError('rate_limit','Слишком много вопросов. Подождите минуту.',429)
             if db.execute('SELECT 1 FROM leases WHERE sid=?',(sid,)).fetchone():
-                raise AppError('conversation_busy','Please wait for the current answer.',409)
+                raise AppError('conversation_busy','Дождитесь текущего ответа.',409)
             if db.execute('SELECT count(*) FROM leases').fetchone()[0]>=self.settings.max_parallel:
-                raise AppError('busy','The assistant is busy. Please try again shortly.',429)
+                raise AppError('busy','Помощник занят. Повторите попытку немного позже.',429)
             db.execute('INSERT INTO requests VALUES(?,?,?,?,0,NULL)',(sid,rid,digest,now))
             db.execute('INSERT INTO rate_events VALUES(?,?,?)',(sid,ip,now))
             db.execute('INSERT INTO leases VALUES(?,?,?)',(sid+':'+rid,sid,now+self.settings.timeout_seconds+15))
@@ -112,7 +112,7 @@ class Store:
             db.execute('INSERT OR IGNORE INTO budget VALUES(?,0)',(day,))
             used=db.execute('SELECT used FROM budget WHERE day=?',(day,)).fetchone()[0]
             if used>=self.generation_limit():
-                raise AppError('daily_limit','The daily demo allowance has been reached. Please return tomorrow.',429)
+                raise AppError('daily_limit','Дневной лимит ответов исчерпан. Вернитесь завтра.',429)
             db.execute('UPDATE budget SET used=used+1 WHERE day=?',(day,))
 
     def finish(self, sid, rid, code, result, question=None, metadata=None):

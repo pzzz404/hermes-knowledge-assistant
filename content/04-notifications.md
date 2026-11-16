@@ -1,10 +1,10 @@
 ---
-title: Notification preferences
+title: Настройки уведомлений
 slug: notifications
 version: common
 ---
-# Notification preferences
+# Настройки уведомлений
 
-Each member opens Profile > Notifications to choose email or in-app notifications. Project mentions are enabled by default; weekly digests are off by default. Selecting Save applies the new preferences to future notifications. Past notifications are not retroactively changed.
+Каждый участник открывает «Профиль» → «Уведомления» и выбирает уведомления по электронной почте или внутри приложения. Упоминания в проектах включены по умолчанию, а еженедельные сводки выключены. После нажатия «Сохранить» новые настройки действуют для будущих уведомлений. Уже полученные уведомления не меняются.
 
-Workspace Admins cannot change another member's personal notification preferences. SMS notifications are not described in this demo documentation.
+Администратор не может менять личные настройки уведомлений другого участника. Уведомления по SMS в этой документации не описаны.

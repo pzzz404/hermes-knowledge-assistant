@@ -1,10 +1,10 @@
 ---
-title: Share a project
+title: Общий доступ к проекту
 slug: project-sharing
 version: common
 ---
-# Share a project
+# Общий доступ к проекту
 
-An Owner, Admin, or project Editor opens the project and selects Share. Choose existing workspace members, set their project permission, then select Save. View permission allows reading; Edit permission allows changing tasks. A workspace Viewer cannot grant Edit permission.
+Владелец, Администратор или Редактор проекта открывает проект и выбирает «Поделиться». Выберите действующих участников рабочего пространства, задайте им права в проекте и нажмите «Сохранить». Право «Просмотр» позволяет читать проект; право «Редактирование» — изменять задачи. Наблюдатель рабочего пространства не может выдавать право «Редактирование».
 
-Sharing a project with an existing member is different from inviting a new workspace member. External guest links are not covered.
+Предоставление доступа действующему участнику отличается от приглашения нового участника в рабочее пространство. Внешние гостевые ссылки здесь не описаны.

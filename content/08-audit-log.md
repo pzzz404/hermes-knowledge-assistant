@@ -1,8 +1,8 @@
 ---
-title: Activity log
+title: Журнал действий
 slug: activity-log
 version: common
 ---
-# Activity log
+# Журнал действий
 
-Owners and Admins open Settings > Activity log to see member invitations, role changes, exports, and project archives. Filter by event type or date. The log is available for 90 days. This demo documentation does not say that the log is immutable or that older events can be recovered.
+Владелец и Администратор открывают «Настройки» → «Журнал действий», чтобы просмотреть приглашения участников, изменения ролей, экспорты и архивации проектов. События можно отфильтровать по типу или дате. Журнал хранит записи за 90 дней. Эта статья не утверждает, что записи неизменяемы или что более старые события можно восстановить.

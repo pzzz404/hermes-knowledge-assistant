@@ -6,7 +6,7 @@ Use it as a foundation for customer self-service, internal knowledge search, and
 
 ![Chat with source](artifacts/answer-desktop.png)
 
-[Demo video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
+[Russian-language video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
 
 ## Where to use it
 
@@ -15,10 +15,12 @@ Use it as a foundation for customer self-service, internal knowledge search, and
 - **Employee and customer onboarding:** explain steps and clarify which interface version applies.
 - **Support agent assistance:** locate the original instruction and prepare an editable request draft when the docs are insufficient.
 
-The application searches local Markdown articles. The repository includes 12 original articles for the fictional Example Workspace product; replace the corpus and product-specific rules for your own use case.
+The application searches local Markdown articles. The repository includes 12 original Russian-language articles for the fictional product «Пример»; replace the corpus and product-specific rules for your own use case.
 
 The generation path is FastAPI → SQLite FTS5 → isolated Hermes → answer and evidence-ID validation. There are no embeddings or vector database. Articles are served as read-only `/kb/<slug>` pages.
 
+The interface, sample corpus and recorded walkthrough are in Russian. See the [24-case Russian evaluation](docs/EVALUATION.md) for first-run results, a documented failure, and a targeted fix.
+
 Run `uv sync --frozen --extra dev`, `uv run python scripts/import_corpus.py`, and `uv run pytest -q`. For a clearly marked technical preview use `ADAPTER=mock uv run uvicorn app.main:app --host 127.0.0.1 --port 8087`. Live answers require a server-side OpenRouter key and a separate Hermes profile; see the [Russian README](README.md) for setup.
 
-This is a working web application that can be deployed and adapted to a product's knowledge base. The included articles and product rules describe the fictional Example Workspace; operational use requires replacing them, configuring a provider key, and evaluating answers on real support questions. The assistant does not integrate with customer workspaces or ticketing systems. Answers may be wrong, so the chat links to the source article. Russian-language questions have not been evaluated, and personal data should not be entered into the public example. Alexey Yudin designed and reviewed this project with coding-agent assistance; no customer deployment or measured business impact is claimed.
+This is a working web application that can be deployed and adapted to a product's knowledge base. The included Russian articles and product rules describe the fictional «Пример» workspace; operational use requires replacing them, configuring a provider key, and evaluating answers on real support questions. The assistant does not integrate with customer workspaces or ticketing systems. Answers may be wrong, so the chat links to the source article. Personal data should not be entered into the public example. Alexey Yudin designed and reviewed this project with coding-agent assistance; no customer deployment or measured business impact is claimed.

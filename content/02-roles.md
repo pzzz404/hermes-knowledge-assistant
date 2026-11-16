@@ -1,10 +1,10 @@
 ---
-title: Member roles
+title: Роли участников
 slug: roles
 version: common
 ---
-# Member roles
+# Роли участников
 
-Owners can manage billing, members, and all projects. Admins can manage members and projects but cannot change billing ownership. Editors can create and edit projects. Viewers can read projects shared with them but cannot edit or invite members.
+Владелец управляет оплатой, участниками и всеми проектами. Администратор управляет участниками и проектами, но не может передавать право управления оплатой. Редактор создаёт и редактирует проекты. Наблюдатель может читать проекты, которыми с ним поделились, но не может их редактировать или приглашать участников.
 
-To change a member's role, an Owner or Admin opens Settings > Members, selects the member, chooses a new role, then selects Save. Only an Owner may assign the Owner role.
+Чтобы изменить роль участника, Владелец или Администратор открывает «Настройки» → «Участники», выбирает человека, назначает новую роль и нажимает «Сохранить». Назначать роль Владельца может только Владелец.

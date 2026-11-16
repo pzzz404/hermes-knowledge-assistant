@@ -1,8 +1,8 @@
 ---
-title: Interface V1 project navigation
+title: Навигация по проектам в интерфейсе V1
 slug: interface-v1
 version: V1
 ---
-# Interface V1 project navigation
+# Навигация по проектам в интерфейсе V1
 
-In interface V1, open Projects from the left sidebar. Select a project to see its tasks. To open project settings, select the gear icon at the top right. The V1 instructions do not describe a command palette.
+В интерфейсе V1 откройте «Проекты» на левой боковой панели. Выберите проект, чтобы увидеть его задачи. Для перехода к настройкам проекта нажмите значок шестерёнки в правом верхнем углу. В инструкции для V1 палитра команд не описана.

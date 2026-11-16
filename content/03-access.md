@@ -1,10 +1,10 @@
 ---
-title: Restore access
+title: Восстановление доступа
 slug: access
 version: common
 ---
-# Restore access
+# Восстановление доступа
 
-If a member forgets a password, use Forgot password on the sign-in page. Enter the registered email address and follow the reset link. The link expires after 30 minutes. A workspace Admin cannot see or set another member's password.
+Если участник забыл пароль, на странице входа выберите «Забыли пароль?». Укажите зарегистрированный адрес электронной почты и перейдите по ссылке для сброса пароля. Ссылка действует 30 минут. Администратор рабочего пространства не может увидеть или задать пароль другого участника.
 
-If the member has lost access to their email address, contact the workspace Owner. This article does not specify an automatic identity verification or recovery workflow for that situation.
+Если участник потерял доступ к своей почте, обратитесь к Владельцу рабочего пространства. В этой статье не описан автоматический порядок проверки личности и восстановления доступа для такого случая.

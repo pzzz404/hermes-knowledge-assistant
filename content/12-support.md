@@ -1,10 +1,10 @@
 ---
-title: Prepare a support request
+title: Подготовка обращения в поддержку
 slug: support-request
 version: common
 ---
-# Prepare a support request
+# Подготовка обращения в поддержку
 
-If the documentation does not resolve a question, describe the feature, interface version, expected result, and what happened. Include an error code if one is visible. Remove passwords, access tokens, and personal information before sharing the request.
+Если документация не помогла, опишите функцию, версию интерфейса, ожидаемый результат и то, что произошло на самом деле. Если виден код ошибки, добавьте его. Перед отправкой уберите пароли, токены доступа и персональные данные.
 
-The assistant can prepare a draft for copying. It does not send the request or create a ticket automatically.
+Помощник может подготовить черновик, который пользователь скопирует. Он не отправляет обращение и не создаёт заявку автоматически.

@@ -17,15 +17,20 @@ class Corpus:
     def article(self,slug):return next((d for d in self.documents() if d['slug']==slug),None)
     def search(self,question,history=(),version=None):
         if not self.path.exists():return []
-        if history and re.search(r'\b(it|that|those|them|their|there|also|instead)\b',question,re.I):question=history[-1]['question']+' '+question
-        words=re.findall(r'[a-z0-9]+',question.lower())
+        if history and re.search(r'\b(это|этот|эти|там|туда|его|её|также|вместо|that|there|also)\b',question,re.I):question=history[-1]['question']+' '+question
+        words=re.findall(r'[a-zа-яё0-9]+',question.lower())
         words += [w for word in words for w in TOPIC_TERMS.get(word,'').split()]
-        stop={'how','can','could','what','where','when','does','do','the','a','an','to','is','are','i','we','you','my','our','for','with','in','on','of','and','from','this','that','it','v1','v2','workspace','example'}
+        stop={'как','где','когда','какие','какой','можно','может','ли','мне','нам','это','этот','эти','там','для','при','что','если','или','они','его','её','она','все','про','могу','нужно','надо','v1','v2',
+              'how','can','could','what','where','when','does','do','the','and','this','that','workspace','example'}
         words=list(dict.fromkeys(w for w in words if len(w)>2 and w not in stop))[:20]
         if not words:return []
-        query=' OR '.join('"'+w+'"' for w in words)
+        # Unicode61 does not stem Russian. Prefixes cover common case endings;
+        # explicit topic terms bridge different roots (e.g. пригласить / приглашение).
+        query=' OR '.join(w[:5]+'*' if len(w)>5 else '"'+w+'"' for w in words)
         with self.connect() as db:
             rows=db.execute('SELECT *, bm25(chunks) rank FROM chunks WHERE chunks MATCH ? ORDER BY rank LIMIT 18',(query,)).fetchall()
+        if version:
+            rows=sorted(rows,key=lambda row: (row['version']!=version,row['rank']))
         chosen=[];seen=set()
         for row in rows:
             if row['slug'] in seen or (version and row['version'] not in ('common',version)):continue

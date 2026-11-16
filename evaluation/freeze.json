@@ -1,10 +1,12 @@
 {
-  "questions_sha256": "5d13d6538757be6eded4b7f89e43df2d1d4c8522c8b12bb5cc131bb9f1a33629",
+  "questions_sha256": "d870220f1bcee55609b634944234e172fdf9ff5b5b172c1ae72bcebc28a157e6",
   "cases": 24,
+  "language": "ru",
   "kind_counts": {
     "answer": 14,
     "outside": 4,
-    "clarification_or_followup": 3,
-    "injection_or_access": 3
+    "clarify": 2,
+    "followup": 1,
+    "injection": 3
   }
 }

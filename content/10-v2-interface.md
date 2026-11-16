@@ -1,8 +1,8 @@
 ---
-title: Interface V2 project navigation
+title: Навигация по проектам в интерфейсе V2
 slug: interface-v2
 version: V2
 ---
-# Interface V2 project navigation
+# Навигация по проектам в интерфейсе V2
 
-In interface V2, open Projects from the top navigation. Select a project, then use the More menu to open Project settings. V2 also offers a command palette with Ctrl+K or Cmd+K. These V2 instructions must not be substituted for V1.
+В интерфейсе V2 откройте «Проекты» в верхнем меню. Выберите проект, затем через меню «Ещё» откройте «Настройки проекта». В V2 также есть палитра команд: нажмите Ctrl+K или Cmd+K. Инструкцию для V2 нельзя подменять инструкцией для V1.

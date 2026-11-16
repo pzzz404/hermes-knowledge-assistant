@@ -1,10 +1,10 @@
 ---
-title: Archive and restore projects
+title: Архивация и восстановление проектов
 slug: archive
 version: common
 ---
-# Archive and restore projects
+# Архивация и восстановление проектов
 
-Owners and Admins can archive a project from Project settings > Archive. Confirm the archive action. Archiving removes the project from the active list but does not delete its tasks. To restore it, open Settings > Archived projects, choose the project, then select Restore.
+Владелец и Администратор могут архивировать проект через «Настройки проекта» → «Архивировать». Подтвердите действие. После архивации проект исчезает из списка активных, но его задачи не удаляются. Для восстановления откройте «Настройки» → «Архивные проекты», выберите проект и нажмите «Восстановить».
 
-An archived project is read-only until restored. Permanent deletion is a separate operation and is not described in this article.
+До восстановления архивный проект доступен только для чтения. Безвозвратное удаление — отдельная операция, которая в этой статье не описана.

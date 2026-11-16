@@ -38,4 +38,4 @@ def import_docs(settings=None):
     db.close();(cfg.data_dir/'corpus.sqlite3').chmod(0o600)
     return len(docs)
 
-if __name__=='__main__':print('Imported original fictional articles:',import_docs())
+if __name__=='__main__':print('Импортировано образцовых статей:',import_docs())

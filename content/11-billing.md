@@ -1,8 +1,8 @@
 ---
-title: Billing ownership
+title: Управление оплатой
 slug: billing
 version: common
 ---
-# Billing ownership
+# Управление оплатой
 
-Only a workspace Owner can change the billing contact. Open Settings > Billing, edit the billing contact, then select Save. Admins can view billing details but cannot transfer billing ownership. Prices, tax calculations, and payment processor integrations are not included in this demo corpus.
+Только Владелец рабочего пространства может изменить контактное лицо по вопросам оплаты. Откройте «Настройки» → «Оплата», измените контакт и нажмите «Сохранить». Администратор может просматривать сведения об оплате, но не может передавать право управления оплатой. Кто может выполнить такую передачу, эта статья не устанавливает. Цены, расчёт налогов и интеграции с платёжными системами в этом корпусе не описаны.

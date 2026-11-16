@@ -1,10 +1,10 @@
 ---
-title: Export a project
+title: Экспорт проекта
 slug: export
 version: common
 ---
-# Export a project
+# Экспорт проекта
 
-Owners and Admins can export a project. Open the project, select More > Export, choose CSV or JSON, then select Start export. The export includes project tasks and comments. Attached files are excluded. A download link appears in Exports when preparation finishes; the link expires after 24 hours.
+Владелец и Администратор могут экспортировать проект. Откройте проект, выберите «Ещё» → «Экспорт», укажите формат CSV или JSON и нажмите «Начать экспорт». В экспорт входят задачи проекта и комментарии. Прикреплённые файлы не включаются. Когда подготовка завершится, ссылка для скачивания появится в разделе «Экспорты»; она действует 24 часа.
 
-Editors and Viewers cannot start an export. This article does not describe scheduled exports or a public export API.
+Редактор и Наблюдатель не могут запускать экспорт. В этой статье не описаны экспорт по расписанию и общедоступный API экспорта.

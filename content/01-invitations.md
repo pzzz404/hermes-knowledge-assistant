@@ -1,10 +1,10 @@
 ---
-title: Invite a teammate
+title: Приглашение участника
 slug: invitations
 version: common
 ---
-# Invite a teammate
+# Приглашение участника
 
-Workspace Owners and Admins can invite members. Open Settings > Members and select Invite member. Enter the email address, choose a role, then select Send invite. The invitation expires after seven days. An expired invitation cannot be accepted; send a new one.
+Владелец и Администратор рабочего пространства могут приглашать участников. Откройте «Настройки» → «Участники» и выберите «Пригласить участника». Укажите адрес электронной почты, выберите роль и нажмите «Отправить приглашение». Приглашение действует семь дней. Просроченное приглашение принять нельзя; отправьте новое.
 
-Inviting a person does not grant access until they accept. A Viewer cannot send invitations. The system does not send an invitation by SMS.
+Приглашение не даёт человеку доступ, пока он его не примет. Наблюдатель не может отправлять приглашения. Система не отправляет приглашения по SMS.
