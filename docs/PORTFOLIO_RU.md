@@ -4,7 +4,7 @@
 
 ![Ответ с раскрытым источником](../artifacts/answer-desktop.png)
 
-[Посмотреть видео](../artifacts/demo.webm) · [Как запустить локально](../README.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant)
+[Посмотреть видео](https://pzzz404.github.io/hermes-knowledge-assistant/) · [Как запустить локально](../README.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant)
 
 Работающее приложение для клиентского справочного центра, внутренней поддержки и онбординга:
 ищет инструкцию по вопросу своими словами, отвечает со ссылкой на статью и готовит черновик

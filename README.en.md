@@ -6,7 +6,7 @@ Use it as a foundation for customer self-service, internal knowledge search, and
 
 ![Chat with source](artifacts/answer-desktop.png)
 
-[Russian-language video](artifacts/demo.webm) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
+[Russian-language video](https://pzzz404.github.io/hermes-knowledge-assistant/) · [Russian case study](docs/PORTFOLIO_RU.md) · [GitHub repository](https://github.com/pzzz404/hermes-knowledge-assistant)
 
 ## Where to use it
 

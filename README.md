@@ -6,7 +6,7 @@
 
 ![Чат с ответом и источником](artifacts/answer-desktop.png)
 
-[Видео работы на русском](artifacts/demo.webm) · [Страница кейса](docs/PORTFOLIO_RU.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant) · [English README](README.en.md)
+[Видео работы на русском](https://pzzz404.github.io/hermes-knowledge-assistant/) · [Страница кейса](docs/PORTFOLIO_RU.md) · [Код на GitHub](https://github.com/pzzz404/hermes-knowledge-assistant) · [English README](README.en.md)
 
 ## Где применять
 
@@ -63,7 +63,7 @@ uv run uvicorn app.main:app --host 127.0.0.1 --port 8087
 Модель задаётся `--model`, URL Hermes и лимиты — через `.env`. На хосте с обязательным прокси
 запускайте Hermes с `HERMES_PROVIDER_PROXY=<proxy URL>`; локальный компьютер может обойтись без него.
 Порты `8087` и `8657` — значения по умолчанию; при изменении порта Hermes укажите и `HERMES_URL`.
-Чтобы переснять браузерные материалы, установите Chromium через Playwright и
+Чтобы переснять браузерные материалы, установите Chromium через Playwright и ffmpeg, затем
 запустите `uv run python scripts/record_demo.py`; для уже установленного браузера
 можно задать `PLAYWRIGHT_CHROMIUM_PATH`. Запись выполняет два настоящих запроса к модели.
 
